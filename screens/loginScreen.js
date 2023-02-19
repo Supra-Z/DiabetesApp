@@ -42,14 +42,22 @@ const redirectUser = () => {
 
   return (
     <View style={styles.container}>
-      <Text>Toa reward screen</Text>
-      <Button
-        title="Grab yourself a purple! :)"
-        onPress={() => 
-        navigation.replace("TabNavigator", {screen: "Home"})
-        }>
-      </Button>
-    </View>
+    {user && <ShowUserInfo />}
+    {user === null &&
+        <>
+        <Text style={{fontSize: 35, fontWeight: 'bold'}}>Welcome</Text>
+        <Text style={{fontSize: 25, fontWeight: 'bold', marginBottom: 20, color: 'gray'}}>Please login</Text>
+      <TouchableOpacity
+        disabled={!request}
+        onPress={() => {
+          promptAsync();
+          }} 
+      >
+        <Image source={require("../btn.png")} style={{width: 300, height: 40}} />
+      </TouchableOpacity>
+      </>
+    }
+  </View>
 
   );
 };
