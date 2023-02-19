@@ -1,0 +1,65 @@
+import React from 'react';
+import { View, Text, StyleSheet, Image, TouchableOpacity, Button } from 'react-native';
+import * as WebBrowser from 'expo-web-browser';
+import * as Google from 'expo-auth-session/providers/google';
+
+WebBrowser.maybeCompleteAuthSession();
+
+
+// web: 210114543828-1gaj155it2qrv2vrbfj5biisnh6jtmla.apps.googleusercontent.com
+// iOS: 210114543828-b9u1sl04cabgk23j2dor9uk38m4o7e1b.apps.googleusercontent.com
+// Android: 210114543828-7vae1o03e9mt6c0ncm48r3r3c13luef8.apps.googleusercontent.com
+
+const LoginScreen = ({ navigation }) => {
+    const [accessToken, setAccessToken] = React.useState(null);
+    const [user, setUser] = React.useState(null);
+    const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
+      clientId: "210114543828-1gaj155it2qrv2vrbfj5biisnh6jtmla.apps.googleusercontent.com",
+      iosClientId: "210114543828-b9u1sl04cabgk23j2dor9uk38m4o7e1b.apps.googleusercontent.com",
+      androidClientId: "210114543828-7vae1o03e9mt6c0ncm48r3r3c13luef8.apps.googleusercontent.com"
+    });
+
+    React.useEffect(() => {
+      if(response?.type === "success"){
+        setAccessToken(response.authentication.accessToken);
+        accessToken && fetchUserInfo();
+      }
+    }, [response, accessToken])
+
+  async function fetchUserInfo() {
+    let reponse = await fetch("https://googleapis.com/userinfo/v2/me", {
+      headers: { Authorization: 'Bearer ${accessToken}'}
+    });
+    const useInfo = await reponse.json();
+    setUser(useInfo);
+  }
+
+const redirectUser = () => {
+  if(user){
+    navigation.replace("TabNavigator",{screen: "Home"});
+  }
+}
+
+  return (
+    <View style={styles.container}>
+      <Text>Toa reward screen</Text>
+      <Button
+        title="Grab yourself a purple! :)"
+        onPress={() => 
+        navigation.replace("TabNavigator", {screen: "Home"})
+        }>
+      </Button>
+    </View>
+
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
+
+export default LoginScreen;

@@ -5,27 +5,31 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import HomeScreen from './screens/home/HomeScreen'
 import ProfileScreen from './screens/home/ProfileScreen'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import LoginScreen from './screens/loginScreen';
+
 
 const Stack = createNativeStackNavigator();
-
 const Tab = createBottomTabNavigator();
 
 function TabNavigator() {
   return (
     <Tab.Navigator>
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Settings" component={ProfileScreen} />
+      <Tab.Screen name="Home" component={HomeScreen}/>
+      <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );
 }
-
-
 
 export default function App() {
 
   return (
     <NavigationContainer>
       <Stack.Navigator>
+        <Stack.Screen
+          options={{ headerShown: false, title: "" }}
+          name="Login"
+          component={LoginScreen}>
+        </Stack.Screen>
         <Stack.Screen
             options={{ headerShown: false, title: "" }}
             name="TabNavigator"

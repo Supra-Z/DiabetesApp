@@ -1,14 +1,15 @@
 import React from 'react';
-import { View, Text, StyleSheet, Button} from 'react-native';
+import { View, Text, StyleSheet, Button } from 'react-native';
 
-const HomeScreen = ({navigation}) => {
+const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text>Home Screen</Text>
-      <Button
-      title="Go to profile"
-      onPress={() => navigation.navigate('Profile')}>
 
+      <Button
+      title="Go to Profile"
+      onPress={() => 
+        navigation.navigate("TabNavigator", {screen: "Profile"})}>
       </Button>
     </View>
   );
